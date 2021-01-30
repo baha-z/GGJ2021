@@ -35,6 +35,7 @@ export class GameScene extends Phaser.Scene {
 
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
+    this.random()
   }
 
   public update(): void {
@@ -57,4 +58,16 @@ export class GameScene extends Phaser.Scene {
     const normalizedVelocity = velocity.normalize();
     this.dog.setVelocity(normalizedVelocity.x * this.speed, normalizedVelocity.y * this.speed);
   }
+  
+public random ():void 
+	{
+		//  Create 300 sprites (they all start life at 0x0)
+		const group = this.add.group()
+		group.createMultiple({ key: 'bone', frameQuantity: 50 })
+
+		const rect = new Phaser.Geom.Rectangle(100, 50, 800, 800)
+	
+		//  Randomly position the sprites within the rectangle
+		Phaser.Actions.RandomRectangle(group.getChildren(), rect)
+	}
 }
