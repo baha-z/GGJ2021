@@ -18,6 +18,16 @@ export class GameScene extends Phaser.Scene {
   }
 
   public create(): void {
+
+    //camera on game start 
+    this.cameras.main.setBounds(0, 0, 1024, 2048);
+    this.cameras.main.centerOn(0, 0);
+    this.input.on('pointerdown', function () {
+        var cam = this.cameras.main;
+        var location = new Phaser.Math.Vector2(0, 500);;
+        cam.pan(location.x, location.y, 1000, 'Sine.easeInOut');
+    }, this);
+
     // Add a player sprite that can be moved around. Place him in the middle of the screen.
     this.image = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this) / 2, 'man');
 
