@@ -18,10 +18,16 @@ export class GameScene extends Phaser.Scene {
     super(sceneConfig);
   }
 
+  public preload(): void {
+    //this.load.image('bg', 'assets/pics/backscroll.png');
+  }
+
   public create(): void {
 
-    //camera on game start 
+    //camera set up
     this.cameras.main.setBounds(0, 0, 1024, 2048);
+
+    //camera slide on game start 
     this.cameras.main.centerOn(0, 0);
     this.input.on('pointerdown', function () {
         var cam = this.cameras.main;
@@ -36,12 +42,18 @@ export class GameScene extends Phaser.Scene {
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.random()
+
+    //camera follow player 
+    this.cameras.main.startFollow(this.dog, true);
+    this.cameras.main.setZoom(2);
   }
 
   public update(): void {
     // Every frame, we create a new velocity for the sprite based on what keys the player is holding down.
     const velocity = new Phaser.Math.Vector2(0, 0);
+    this.dog.setVelocity(0);
 
+    //movement 
     if (this.cursorKeys.left.isDown) {
       velocity.x -= 1;
     }
@@ -52,8 +64,7 @@ export class GameScene extends Phaser.Scene {
       velocity.y -= 1;
     }
       velocity.y += 1;
-    
-
+        
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.
     const normalizedVelocity = velocity.normalize();
     this.dog.setVelocity(normalizedVelocity.x * this.speed, normalizedVelocity.y * this.speed);
