@@ -9,7 +9,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
   public speed = 200;
-
+  public started = false;
   private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   private dog: Phaser.Physics.Arcade.Sprite;
   private bone: Phaser.Physics.Arcade.Sprite;
@@ -28,24 +28,22 @@ export class GameScene extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 1024, 2048);
 
     //camera slide on game start 
-    this.cameras.main.centerOn(0, 0);
+    this.cameras.main.centerOnY(getGameHeight(this));
     this.input.on('pointerdown', function () {
         var cam = this.cameras.main;
-        var location = new Phaser.Math.Vector2(0, 500);;
-        cam.pan(location.x, location.y, 1000, 'Sine.easeInOut');
+        var location = new Phaser.Math.Vector2(0, 500);
+        cam.pan(getGameWidth(this) / 2, getGameHeight(this)/6, 1000, 'Sine.easeInOut');
+        this.started = true;
     }, this);
 
     // Add a player sprite that can be moved around. Place him in the middle of the screen.
-    this.dog = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this) / 5, 'man');
-    this.bone = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this) / 2, 'bone');
+    this.dog = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this)/6, 'man');
+    //this.bone = this.physics.add.sprite(getGameWidth(this) / 2, getGameHeight(this) / 2, 'bone');
 
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.random()
-
-    //camera follow player 
-    this.cameras.main.startFollow(this.dog, true);
-    this.cameras.main.setZoom(2);
+    this.cameras.main.setZoom(1.5);
   }
 
   public update(): void {
@@ -53,17 +51,21 @@ export class GameScene extends Phaser.Scene {
     const velocity = new Phaser.Math.Vector2(0, 0);
     this.dog.setVelocity(0);
 
-    //movement 
-    if (this.cursorKeys.left.isDown) {
-      velocity.x -= 1;
-    }
-    if (this.cursorKeys.right.isDown) {
-      velocity.x += 1;
-    }
-    if (this.cursorKeys.up.isDown) {
-      velocity.y -= 1;
-    }
+    //camera follow player 
+    if (this.started){
+      this.cameras.main.startFollow(this.dog, true);
+      //movement 
       velocity.y += 1;
+      if (this.cursorKeys.left.isDown) {
+        velocity.x -= 1;
+      }
+      if (this.cursorKeys.right.isDown) {
+        velocity.x += 1;
+      }
+      if (this.cursorKeys.up.isDown) {
+        velocity.y -= 1;
+      }
+    }
         
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.
     const normalizedVelocity = velocity.normalize();
