@@ -72,9 +72,25 @@ export class BootScene extends Phaser.Scene {
   private loadAssets() {
     // Load sample assets
 
-    // Source: Open Game Art
-    this.load.image('man', 'assets/sprites/character.png');
+    this.load.spritesheet('chucho_idle', 'assets/sprites/chucho_idle.png', { frameWidth: 834, frameHeight: 834 });
+    this.anims.create({
+        key: 'idle',
+        frames: 'chucho_idle',
+        frameRate: 8,
+        repeat: -1
+    });
+
+    this.load.spritesheet('chucho_dig', 'assets/sprites/chucho_movement.png', { frameWidth: 433, frameHeight: 834 });
+    this.anims.create({
+        key: 'dig',
+        frames: 'chucho_dig',
+        frameRate: 8,
+        repeat: -1
+    });
+
     this.load.image('bone', 'assets/sprites/bone.png');
+    this.load.image('man', 'assets/sprites/chucho.png');
+
 
   }
 }
