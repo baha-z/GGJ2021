@@ -16,24 +16,24 @@ export class EnergyText {
     this.remainingEnergy = this.MAX_ENERGY;
   }
 
-  public drawn() {
-    this.text = this.scene.add.text(10, this.target.y - this.SEPARATION_FACTOR, this.makeText(), { font: '24px Courier', color: '#FFF' });
+  public drawn(start:boolean) {
+    this.text = this.scene.add.text(10, this.target.y - this.SEPARATION_FACTOR, this.makeText(start), { font: '25px Courier', color: '#FFF' });
   }
 
-  public recharge() {
+  public recharge(start:boolean) {
     this.remainingEnergy += 100;
     this.remainingEnergy = Math.min(this.remainingEnergy, this.MAX_ENERGY);
-    this.text.setText(this.makeText());
+    this.text.setText(this.makeText(start));
   }
 
-  public refresh() {
-    this.text.y = this.target.y - this.SEPARATION_FACTOR;
+  public refresh(start:boolean) {
+    this.text.y = this.target.y - 100 - this.SEPARATION_FACTOR;
     this.remainingEnergy -= 3;
     this.remainingEnergy = Math.max(this.remainingEnergy, this.MIN_ENERGY);
-    this.text.setText(this.makeText());
+    this.text.setText(this.makeText(start));
   }
 
-  private makeText(): string {
-    return 'Energía restante: ' + Math.round(this.remainingEnergy / 10) + '%';
+  private makeText(start): string {
+    return start ? '🔋 :' + Math.round(this.remainingEnergy / 10) + '%' : '';
   }
 }

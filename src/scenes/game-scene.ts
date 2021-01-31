@@ -34,35 +34,40 @@ export class GameScene extends Phaser.Scene {
 
   public create(): void {
     //camera set up
-    this.cameras.main.setBounds(0, 0, 720, 1280);
-    this.cameras.main.setBackgroundColor('#4F3F3F');
+    this.cameras.main.setBounds(0, 0, 120, 2280);
+    this.cameras.main.setBackgroundColor('#1b1b1b');
     this.cameras.main.setZoom(1.5);
     this.cameras.main.centerOnY(0);
 
     //bg screen
-    const bg = this.add.image(320, 300, 'bg_main');
-    bg.scale = 0.5; // Resize the imag
+    const bg = this.add.image(150, 120, 'bg_main');
+    bg.scale = 0.2; // Resize the imag
    
     // Add  Sprite and Place him in the  screen.
-    this.dog = this.physics.add.sprite(getGameWidth(this) / 3, getGameHeight(this) / 3, 'chucho');
+    this.dog = this.physics.add.sprite(getGameWidth(this) / 3, getGameHeight(this) / 2.8, 'chucho');
 
     this.animations();
 
-    this.dog.scale = 0.05;
+    this.dog.scale = 0.09;
     this.dog.play('idle_anim');
 
     this.input.on('pointerdown', function () {
       this.started = true;
+
+      
+
       this.dog.play('dig_anim');
     }, this);
+
+    this.energytext = new EnergyText(this, this.dog);
+    this.energytext.drawn(this.started);
+ 
     
     //this.dog.play('idle');
-    this.energytext = new EnergyText(this, this.dog);
-    this.energytext.drawn();
     // this.lantern = new Lantern(this, this.dog);
     // this.lantern.turnOn();
 
-    this.scoreText = this.add.text(10, this.dog.y, 'score: ' + this.score, { font: '24px Courier', color: '#FFF' });
+    this.scoreText = this.add.text(10, this.dog.y - 200, this.started ? '🦴: ' + this.score : '', { font: '30px Courier', color: '#FFF' });
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     
@@ -80,10 +85,14 @@ export class GameScene extends Phaser.Scene {
   this.physics.add.overlap(this.dog,this.grounds);
   this.physics.add.overlap(this.bones,this.grounds);
   this.physics.add.overlap(this.batteries,this.grounds);
+  this.
+  
+
 /*   this.dog.setCollideWorldBounds(true);*///// 
   }
   public update(): void {
-    this.energytext.refresh();
+
+    this.energytext.refresh(this.started);
 
     // Every frame, we create a new velocity for the sprite based on what keys the player is holding down.
     const velocity = new Phaser.Math.Vector2(0, 0);
@@ -91,6 +100,7 @@ export class GameScene extends Phaser.Scene {
 
     //camera follow player 
     if (this.started) {
+
       this.cameras.main.startFollow(this.dog, true);
       //movement 
       velocity.y += 1;
@@ -116,7 +126,7 @@ export class GameScene extends Phaser.Scene {
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.
     const normalizedVelocity = velocity.normalize();
     this.dog.setVelocity(normalizedVelocity.x * this.speed, normalizedVelocity.y * this.speed);
-    this.scoreText.y = this.dog.y;
+    this.scoreText.y = this.dog.y - 180;
   }
   
   public random (group:any, key:string, quantity:number ): Physics.Arcade.Group 
@@ -128,16 +138,16 @@ export class GameScene extends Phaser.Scene {
       customBoundsRectangle: customBounds,
       collideWorldBounds: true,
       setScale: {
-        x: 0.05,
-        y: 0.05
+        x: 0.02,
+        y: 0.02
       },
       gridAlign: {
         width: 600,
         height: 1500,
         cellWidth: 50,
         cellHeight: 50,
-        x: 20,
-        y: 50,
+        x: 50,
+        y: 30,
       },
     });
   }
@@ -167,12 +177,12 @@ export class GameScene extends Phaser.Scene {
       if(consumable.texture.key === 'bone'){
       consumable.destroy();
         this.score += 10;
-        this.scoreText.setText("Score: " + this.score)
+        this.scoreText.setText(this.started ? "🦴: " + this.score : '')
     }
       if(consumable.texture.key === 'battery'){
-        this.energytext.recharge();
+        this.energytext.recharge(this.started);
         consumable.destroy();
-        this.scoreText.setText("Score: " + this.score)
+        this.scoreText.setText(this.started ? "🦴: " + this.score : '')
       }
     } 
     public  remove(object: any, garbage: any) {
@@ -193,5 +203,6 @@ export class GameScene extends Phaser.Scene {
         frameRate: 8,
         repeat: -1
     });
+
   }
 }
