@@ -1,4 +1,4 @@
-import { Input } from 'phaser';
+import { GameObjects, Input } from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -9,6 +9,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class GameScene extends Phaser.Scene {
   public speed = 200;
+  public scoreText: Phaser.GameObjects.Text;
+  public score= 0;
+
   public started = false;
   private cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   private dog: Phaser.Physics.Arcade.Sprite;
@@ -39,8 +42,11 @@ export class GameScene extends Phaser.Scene {
     
     //this.dog.play('idle');
 
+   this.scoreText = this.add.text(100, 16, 'score: '+this.score, { fontSize: '32px', color: '#fff' });
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
+   /*  
+   this.generateGround(); */
     
     // ROSA  AQUI ESTA EL RANDOM COMENTADO 
 
@@ -69,17 +75,13 @@ export class GameScene extends Phaser.Scene {
         velocity.y -= 1;
       }
     }
-        
+/*     this.physics.add.overlap(this.dog, this.bone, ()=>console.log("object", this.bone ), null, this);
+ */
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.
     const normalizedVelocity = velocity.normalize();
     this.dog.setVelocity(normalizedVelocity.x * this.speed, normalizedVelocity.y * this.speed);
   }
   
-public random ():void 
-	{
-		//  Create 300 sprites (they all start life at 0x0)
-		const group = this.add.group()
-		group.createMultiple({ key: 'bone', frameQuantity: 50 })
 
 		const rect = new Phaser.Geom.Rectangle(100, 50, 800, 800)
 	

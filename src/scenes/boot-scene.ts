@@ -88,7 +88,10 @@ export class BootScene extends Phaser.Scene {
         repeat: -1
     });
 
+    this.load.image('dog', 'assets/sprites/character.png');
     this.load.image('bone', 'assets/sprites/bone.png');
     this.load.image('chucho', 'assets/sprites/chucho.png');
+    this.load.spritesheet('grounds', 'assets/sprites/diamonds32x24x5.png', { frameWidth: 32, frameHeight: 24 });
+
   }
 }
