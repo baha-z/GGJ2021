@@ -31,20 +31,35 @@ export class GameScene extends Phaser.Scene {
 
     // Add a player sprite that can be moved around. Place him in the middle of the screen.
     this.dog = this.physics.add.sprite( getGameWidth(this)/2 , getGameHeight(this)/2 , 'chucho');
-    this.dog.scale=0.05;
+    this.dog.scale=0.07;
+
+    this.anims.create({
+        key: 'idle_anim',
+        frames: 'chucho_idle',
+        duration: 1000,
+        repeat: -1
+    });
+
+    this.anims.create({
+      key: 'dig_anim',
+      frames: 'chucho_dig',
+      frameRate: 8,
+      repeat: -1
+  });
+
+    this.dog.play('idle_anim');
 
     this.input.on('pointerdown', function () {
         this.started = true;
+        this.dog.play('dig_anim');
     }, this);
-    
-    //this.dog.play('idle');
 
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     
     // ROSA  AQUI ESTA EL RANDOM COMENTADO 
 
-    //this.random()
+    this.random()
     
     //this.dog.setCollideWorldBounds(true);
   }
@@ -78,11 +93,9 @@ export class GameScene extends Phaser.Scene {
 public random ():void 
 	{
 		//  Create 300 sprites (they all start life at 0x0)
-		const group = this.add.group()
-		group.createMultiple({ key: 'bone', frameQuantity: 50 })
-
+		const group = this.add.group();
+    group.createMultiple({ key: 'bone', frameQuantity: 50, setScale: { x: 0.03, y: 0.03} });
 		const rect = new Phaser.Geom.Rectangle(100, 50, 800, 800)
-	
 		// Randomly position the sprites within the rectangle
 		Phaser.Actions.RandomRectangle(group.getChildren(), rect)
 	}

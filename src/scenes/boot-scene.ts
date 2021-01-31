@@ -73,22 +73,12 @@ export class BootScene extends Phaser.Scene {
     // Load sample assets
 
     this.load.spritesheet('chucho_idle', 'assets/sprites/chucho_idle.png', { frameWidth: 834, frameHeight: 834 });
-    this.anims.create({
-        key: 'idle',
-        frames: 'chucho_idle',
-        frameRate: 8,
-        repeat: -1
-    });
-
     this.load.spritesheet('chucho_dig', 'assets/sprites/chucho_movement.png', { frameWidth: 433, frameHeight: 834 });
-    this.anims.create({
-        key: 'dig',
-        frames: 'chucho_dig',
-        frameRate: 8,
-        repeat: -1
-    });
 
     this.load.image('bone', 'assets/sprites/bone.png');
+    this.load.image('bone_bad', 'assets/sprites/bone_bad.png');
+    this.load.image('battery', 'assets/sprites/battery.png');
     this.load.image('chucho', 'assets/sprites/chucho.png');
+
   }
 }
