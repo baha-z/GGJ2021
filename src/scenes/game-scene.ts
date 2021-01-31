@@ -19,13 +19,14 @@ export class GameScene extends Phaser.Scene {
   }
 
   public preload(): void {
-    //this.load.image('bg', 'assets/pics/backscroll.png');
+    this.load.image('background', 'assets/background/chucho-fondo-34.png', this.scale(0.07));
   }
 
   public create(): void {
     //camera set up
     this.cameras.main.setBounds(0, 0, 1024, 2048);
     this.cameras.main.setBackgroundColor('#00000');
+    this.add.image(400, 300, 'background');
     this.cameras.main.setZoom(1.5);
     this.cameras.main.centerOnY(0);
 
