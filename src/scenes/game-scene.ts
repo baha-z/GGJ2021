@@ -1,5 +1,6 @@
 import { GameObjects, Input, Physics } from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
+import { EnergyText } from '../tools/energy-text';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -17,6 +18,7 @@ export class GameScene extends Phaser.Scene {
   private bones:any;
   private batteries: any;
   private grounds: any;
+  private energytext: EnergyText;
 
 
   constructor() {
@@ -53,8 +55,14 @@ export class GameScene extends Phaser.Scene {
       this.started = true;
       this.dog.play('dig_anim');
     }, this);
+    
+    //this.dog.play('idle');
+    this.energytext = new EnergyText(this, this.dog);
+    this.energytext.drawn();
+    // this.lantern = new Lantern(this, this.dog);
+    // this.lantern.turnOn();
 
-    this.scoreText = this.add.text(900, 900, 'score: ' + this.score, { fontSize: '32px', color: '#000' });
+    this.scoreText = this.add.text(10, this.dog.y, 'score: ' + this.score, { font: '24px Courier', color: '#FFF' });
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     
@@ -75,6 +83,8 @@ export class GameScene extends Phaser.Scene {
 /*   this.dog.setCollideWorldBounds(true);*///// 
   }
   public update(): void {
+    this.energytext.refresh();
+
     // Every frame, we create a new velocity for the sprite based on what keys the player is holding down.
     const velocity = new Phaser.Math.Vector2(0, 0);
     this.dog.setVelocity(0);
@@ -106,6 +116,7 @@ export class GameScene extends Phaser.Scene {
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.
     const normalizedVelocity = velocity.normalize();
     this.dog.setVelocity(normalizedVelocity.x * this.speed, normalizedVelocity.y * this.speed);
+    this.scoreText.y = this.dog.y;
   }
   
   public random (group:any, key:string, quantity:number ): Physics.Arcade.Group 
@@ -159,10 +170,8 @@ export class GameScene extends Phaser.Scene {
         this.scoreText.setText("Score: " + this.score)
     }
       if(consumable.texture.key === 'battery'){
+        this.energytext.recharge();
         consumable.destroy();
-
-        // rechargeLight
-        this.score += 100;
         this.scoreText.setText("Score: " + this.score)
       }
     } 
@@ -183,6 +192,6 @@ export class GameScene extends Phaser.Scene {
         frames: 'chucho_dig',
         frameRate: 8,
         repeat: -1
-  }
     });
+  }
 }
