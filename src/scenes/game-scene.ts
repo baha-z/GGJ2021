@@ -27,7 +27,7 @@ export class GameScene extends Phaser.Scene {
     this.load.image('background', 'assets/background/chucho-fondo-34.png');
     
     const music = this.sound.add('bg_music', { volume: 0.5, loop: true });
-    music.play();
+    //music.play();
   }
 
   public create(): void {
