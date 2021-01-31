@@ -24,7 +24,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   public preload(): void {
-    this.load.image('background', 'assets/background/chucho-fondo-34.png');
+    this.load.image('bg_main', 'assets/background/bg_main.png');
     
     const music = this.sound.add('bg_music', { volume: 0.5, loop: true });
     //music.play();
@@ -32,21 +32,22 @@ export class GameScene extends Phaser.Scene {
 
   public create(): void {
     //camera set up
-    this.cameras.main.setBounds(0, 0, 1024, 2048);
-    this.cameras.main.setBackgroundColor('#fff');
+    this.cameras.main.setBounds(0, 0, 720, 1280);
+    this.cameras.main.setBackgroundColor('#4F3F3F');
     this.cameras.main.setZoom(1.5);
     this.cameras.main.centerOnY(0);
 
     //bg screen
-    this.add.tileSprite(0, 0, getGameWidth(this), 250, 'background').setOrigin(0);
+    const bg = this.add.image(320, 300, 'bg_main');
+    bg.scale = 0.5; // Resize the imag
    
     // Add  Sprite and Place him in the  screen.
     this.dog = this.physics.add.sprite(getGameWidth(this) / 3, getGameHeight(this) / 3, 'chucho');
 
     this.animations();
 
-    this.dog.scale = 0.07;
-    this.dog.play('idle_anim')
+    this.dog.scale = 0.05;
+    this.dog.play('idle_anim');
 
     this.input.on('pointerdown', function () {
       this.started = true;
@@ -65,16 +66,12 @@ export class GameScene extends Phaser.Scene {
   this.physics.add.overlap(this.bones,this.dog);
   Phaser.Actions.RandomRectangle(this.bones.getChildren(), customBounds);
 
-  this.batteries = this.random(this.batteries, 'dog',10); 
+  this.batteries = this.random(this.batteries, 'battery',10); 
   this.physics.add.overlap(this.batteries,this.dog);
   Phaser.Actions.RandomRectangle(this.batteries.getChildren(), customBounds);
-
-   this.physics.add.overlap(this.dog,this.grounds);
-   this.physics.add.overlap(this.bones,this.grounds);
+  this.physics.add.overlap(this.dog,this.grounds);
+  this.physics.add.overlap(this.bones,this.grounds);
   this.physics.add.overlap(this.batteries,this.grounds);
-
-
-
 /*   this.dog.setCollideWorldBounds(true);*///// 
   }
   public update(): void {
@@ -106,9 +103,6 @@ export class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.bones, this.batteries, this.remove, null, this);
     this.physics.add.collider(this.bones, this.grounds, this.remove, null, this);
     this.physics.add.collider(this.batteries, this.grounds, this.remove, null, this);
-
-
-
     // We normalize the velocity so that the player is always moving at the same speed, regardless of direction.
     const normalizedVelocity = velocity.normalize();
     this.dog.setVelocity(normalizedVelocity.x * this.speed, normalizedVelocity.y * this.speed);
@@ -140,19 +134,19 @@ export class GameScene extends Phaser.Scene {
   public generateGround (group:any):Physics.Arcade.Group {
     return group = this.physics.add.group({
         key: 'grounds',
-        frame: [ 0, 1, 2, 3, 4,5,6 ],
+        frame: [0,1,2,3,4,5,6,7],
         frameQuantity: 1000,
-        allowRotation:true,
+        //allowRotation:true,
         randomFrame:true,
         randomKey:true,
         hitAreaCallback:this.remove ,
         gridAlign:{  
           width: 150,
           height: getGameHeight(this),
-          cellWidth: 70,
-          cellHeight: 70,
+          cellWidth: 40,
+          cellHeight: 40,
           x: 20,
-          y: 200,
+          y: 290,
         },
     });
   }
@@ -164,7 +158,7 @@ export class GameScene extends Phaser.Scene {
         this.score += 10;
         this.scoreText.setText("Score: " + this.score)
     }
-      if(consumable.texture.key === 'dog'){
+      if(consumable.texture.key === 'battery'){
         consumable.destroy();
 
         // rechargeLight
