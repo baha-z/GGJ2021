@@ -17,13 +17,15 @@ export class GameScene extends Phaser.Scene {
   private bones: any;
   private batteries: any;
 
-
   constructor() {
     super(sceneConfig);
   }
 
   public preload(): void {
     this.load.image('background', 'assets/background/chucho-fondo-34.png');
+    
+    const music = this.sound.add('bg_music', { volume: 0.5, loop: true });
+    music.play();
   }
 
   public create(): void {
@@ -37,6 +39,7 @@ export class GameScene extends Phaser.Scene {
     this.dog = this.physics.add.sprite(getGameWidth(this) / 3, getGameHeight(this) / 3, 'chucho');
 
     this.animations();
+
 
     this.dog.scale = 0.07;
     this.dog.play('idle_anim')
@@ -58,7 +61,7 @@ export class GameScene extends Phaser.Scene {
     this.physics.add.overlap(this.bones, this.dog);
     Phaser.Actions.RandomRectangle(this.bones.getChildren(), customBounds);
 
-    this.batteries = this.random(this.batteries, 'dog', 10);
+    this.batteries = this.random(this.batteries, 'battery', 10);
     this.physics.add.overlap(this.batteries, this.dog);
     Phaser.Actions.RandomRectangle(this.batteries.getChildren(), customBounds);
 
@@ -126,7 +129,7 @@ export class GameScene extends Phaser.Scene {
       this.score += 10;
       this.scoreText.setText("Score: " + this.score)
     }
-    if (consumable.texture.key === 'dog') {
+    if (consumable.texture.key === 'battery') {
       consumable.destroy();
 
       // rechargeLight
