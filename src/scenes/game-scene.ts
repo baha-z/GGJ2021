@@ -117,48 +117,46 @@ export class GameScene extends Phaser.Scene {
   public random (group:any, key:string, quantity:number ): Physics.Arcade.Group 
 	{
     const customBounds = new Phaser.Geom.Rectangle(50 , 300, 600, 2000);
-
     return group = this.physics.add.group({
-        key: key,
-        frameQuantity: quantity,
-        customBoundsRectangle: customBounds,
-        collideWorldBounds: true,
+      key: key,
+      frameQuantity: quantity,
+      customBoundsRectangle: customBounds,
+      collideWorldBounds: true,
+      setScale: {
+        x: 0.05,
+        y: 0.05
+      },
+      gridAlign: {
+        width: 600,
+        height: 1500,
+        cellWidth: 50,
+        cellHeight: 50,
+        x: 20,
+        y: 50,
+      },
+    });
+  }
+
+  public generateGround (group:any):Physics.Arcade.Group {
+    return group = this.physics.add.group({
+        key: 'grounds',
+        frame: [ 0, 1, 2, 3, 4,5,6 ],
+        frameQuantity: 1000,
         allowRotation:true,
         randomFrame:true,
         randomKey:true,
+        hitAreaCallback:this.remove ,
         gridAlign:{  
-          width: 800,
-          height: 1500,
-          cellWidth: 50,
-          cellHeight: 50,
+          width: 150,
+          height: getGameHeight(this),
+          cellWidth: 70,
+          cellHeight: 70,
           x: 20,
-          y: 50,
+          y: 200,
         },
     });
-
   }
-  public generateGround (group:any):Physics.Arcade.Group {
 
-  return group = this.physics.add.group({
-      key: 'grounds',
-      frame: [ 0, 1, 2, 3, 4,5,6 ],
-      frameQuantity: 1000,
-      allowRotation:true,
-      randomFrame:true,
-      randomKey:true,
-      hitAreaCallback:this.remove ,
-      gridAlign:{  
-        width: 150,
-        height: getGameHeight(this),
-        cellWidth: 70,
-        cellHeight: 70,
-        x: 20,
-        y: 200,
-      },
-
-  });
-
-  }
     public collect (dog ,consumable )
     {
       if(consumable.texture.key === 'bone'){
