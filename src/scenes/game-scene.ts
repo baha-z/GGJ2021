@@ -35,11 +35,13 @@ export class GameScene extends Phaser.Scene {
     this.cameras.main.setZoom(1.5);
     this.cameras.main.centerOnY(0);
 
+    //bg screen
+    this.add.tileSprite(0, 0, getGameWidth(this), 250, 'background').setOrigin(0);
+   
     // Add  Sprite and Place him in the  screen.
     this.dog = this.physics.add.sprite(getGameWidth(this) / 3, getGameHeight(this) / 3, 'chucho');
 
     this.animations();
-
 
     this.dog.scale = 0.07;
     this.dog.play('idle_anim')
