@@ -1,6 +1,7 @@
 import { GameObjects, Input, Physics } from 'phaser';
 import { getGameWidth, getGameHeight } from '../helpers';
 import { EnergyText } from '../tools/energy-text';
+import { Lantern } from '../tools/lantern';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -19,6 +20,7 @@ export class GameScene extends Phaser.Scene {
   private batteries: any;
   private grounds: any;
   private energytext: EnergyText;
+  lantern: Lantern;
 
 
   constructor() {
@@ -64,8 +66,11 @@ export class GameScene extends Phaser.Scene {
  
     
     //this.dog.play('idle');
-    // this.lantern = new Lantern(this, this.dog);
-    // this.lantern.turnOn();
+    this.energytext = new EnergyText(this, this.dog);
+    this.energytext.drawn(this.started);
+    
+    this.lantern = new Lantern(this, this.dog);
+    this.lantern.turnOn();
 
     this.scoreText = this.add.text(10, this.dog.y - 200, this.started ? '🦴: ' + this.score : '', { font: '25px Courier', color: '#FFF' });
     this.scoreText.setDepth(1);
@@ -87,13 +92,12 @@ export class GameScene extends Phaser.Scene {
   this.physics.add.overlap(this.dog,this.grounds);
   this.physics.add.overlap(this.bones,this.grounds);
   this.physics.add.overlap(this.batteries,this.grounds);
-  
-
 /*   this.dog.setCollideWorldBounds(true);*///// 
   }
-  public update(): void {
 
+  public update(): void {
     this.energytext.refresh(this.started);
+    this.lantern.use();
 
     // Every frame, we create a new velocity for the sprite based on what keys the player is holding down.
     const velocity = new Phaser.Math.Vector2(0, 0);
@@ -182,6 +186,7 @@ export class GameScene extends Phaser.Scene {
     }
       if(consumable.texture.key === 'battery'){
         this.energytext.recharge(this.started);
+        this.lantern.charge();
         consumable.destroy();
         this.scoreText.setText(this.started ? "🦴: " + this.score : '')
       }
