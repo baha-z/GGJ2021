@@ -58,7 +58,7 @@ export class BootScene extends Phaser.Scene {
       progressBar.destroy();
       progressBarContainer.destroy();
 
-      this.scene.start('MainMenu');
+      this.scene.start('Game');
     });
 
     this.loadAssets();
@@ -91,7 +91,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('dog', 'assets/sprites/character.png');
     this.load.image('bone', 'assets/sprites/bone.png');
     this.load.image('chucho', 'assets/sprites/chucho.png');
-    this.load.spritesheet('grounds', 'assets/sprites/diamonds32x24x5.png', { frameWidth: 32, frameHeight: 24 });
+    this.load.spritesheet('grounds', 'assets/sprites/grounds.png', { frameWidth: 70, frameHeight: 70 });
 
   }
 }
