@@ -3,3 +3,5 @@ dist/app.bundle.js
 package-lock.json
 dist/vendors.app.bundle.js
 dist/app.bundle.js
+
+dist/
