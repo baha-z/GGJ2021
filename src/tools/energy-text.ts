@@ -1,3 +1,5 @@
+import { GameObjects } from "phaser";
+
 export class EnergyText {
   private scene: Phaser.Scene;
   private remainingEnergy: number;
