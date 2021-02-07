@@ -18,6 +18,7 @@ export class EnergyText {
 
   public drawn(start:boolean) {
     this.text = this.scene.add.text(10, this.target.y - this.SEPARATION_FACTOR, this.makeText(start), { font: '25px Courier', color: '#FFF' });
+    this.text.setDepth(1);
   }
 
   public recharge(start:boolean) {

@@ -7,8 +7,9 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
 
   scale: {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: 400, //window.innerWidth,
+    height: 635, //window.innerHeight,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
   },
 
   scene: Scenes,

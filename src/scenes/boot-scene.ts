@@ -75,12 +75,11 @@ export class BootScene extends Phaser.Scene {
     this.load.audio('bg_music', ['assets/music/el-baile-del-perrito.mp3']);
     this.load.spritesheet('chucho_idle', 'assets/sprites/chucho_idle.png', { frameWidth: 834, frameHeight: 834 });
     this.load.spritesheet('chucho_dig', 'assets/sprites/chucho_movement.png', { frameWidth: 433, frameHeight: 834 });
-    //this.load.image('dog', 'assets/sprites/character.png');
     this.load.image('bone', 'assets/sprites/bone.png');
     this.load.image('bone_bad', 'assets/sprites/bone_bad.png');
     this.load.image('battery', 'assets/sprites/battery.png');
     this.load.image('chucho', 'assets/sprites/chucho.png');
-    this.load.spritesheet('grounds', 'assets/sprites/grounds02.png', { frameWidth: 40, frameHeight: 40 });
+    this.load.spritesheet('grounds', 'assets/sprites/grounds07.png', { frameWidth: 40, frameHeight: 40 });
 
   }
 }

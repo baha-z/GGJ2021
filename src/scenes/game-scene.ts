@@ -35,12 +35,12 @@ export class GameScene extends Phaser.Scene {
   public create(): void {
     //camera set up
     this.cameras.main.setBounds(0, 0, 120, 2280);
-    this.cameras.main.setBackgroundColor('#1b1b1b');
+    this.cameras.main.setBackgroundColor('#4f3f3f');
     this.cameras.main.setZoom(1.5);
     this.cameras.main.centerOnY(0);
 
     //bg screen
-    const bg = this.add.image(150, 120, 'bg_main');
+    const bg = this.add.image(130, 130, 'bg_main');
     bg.scale = 0.2; // Resize the imag
    
     // Add  Sprite and Place him in the  screen.
@@ -67,7 +67,9 @@ export class GameScene extends Phaser.Scene {
     // this.lantern = new Lantern(this, this.dog);
     // this.lantern.turnOn();
 
-    this.scoreText = this.add.text(10, this.dog.y - 200, this.started ? '🦴: ' + this.score : '', { font: '30px Courier', color: '#FFF' });
+    this.scoreText = this.add.text(10, this.dog.y - 200, this.started ? '🦴: ' + this.score : '', { font: '25px Courier', color: '#FFF' });
+    this.scoreText.setDepth(1);
+    
     // This is a nice helper Phaser provides to create listeners for some of the most common keys.
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     
@@ -85,7 +87,6 @@ export class GameScene extends Phaser.Scene {
   this.physics.add.overlap(this.dog,this.grounds);
   this.physics.add.overlap(this.bones,this.grounds);
   this.physics.add.overlap(this.batteries,this.grounds);
-  this.
   
 
 /*   this.dog.setCollideWorldBounds(true);*///// 
@@ -138,8 +139,8 @@ export class GameScene extends Phaser.Scene {
       customBoundsRectangle: customBounds,
       collideWorldBounds: true,
       setScale: {
-        x: 0.02,
-        y: 0.02
+        x: 0.03,
+        y: 0.03,
       },
       gridAlign: {
         width: 600,
